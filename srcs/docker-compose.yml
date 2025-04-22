@@ -1,0 +1,29 @@
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: mariadb-container
+    # volumes:
+    #   - mariadb_data:/var/lib/mysql
+    networks:
+      - all
+    env_file:
+      - .env
+    restart: on-failure
+
+  wordpress:
+    container_name: wordpress-container
+    build: ./requirements/wordpress/
+    # volumes:
+    #   - wordpress_files:/var/www/html
+    networks:
+      - all
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+
+networks:
+  all:
+    driver: bridge
