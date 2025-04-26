@@ -3,8 +3,8 @@ services:
     build:
       context: ./requirements/mariadb
     container_name: mariadb-container
-    # volumes:
-    #   - mariadb_data:/var/lib/mysql
+    volumes:
+      - mariadb_data:/var/lib/mysql
     networks:
       - all
     env_file:
@@ -14,8 +14,8 @@ services:
   wordpress:
     container_name: wordpress-container
     build: ./requirements/wordpress/
-    # volumes:
-    #   - wordpress_files:/var/www/html
+    volumes:
+      - wordpress_files:/var/www/html
     networks:
       - all
     restart: on-failure
@@ -40,3 +40,19 @@ services:
 networks:
   all:
     driver: bridge
+
+volumes:
+  wordpress_files:
+    name: wordpress
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/${USER}/data/wordpress_files
+      o: bind
+  mariadb_data:
+    name: mariadb
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/${USER}/data/mariadb_data
+      o: bind
