@@ -13,6 +13,10 @@ else
 
     echo "wp-config.php created successfully."
 
+	MYSQL_PASSWORD=$(cat /run/secrets/mysql_password)
+	WORDPRESS_USER1_PASSWORD=$(cat /run/secrets/wordpress_user1_password)
+	WORDPRESS_ADMIN_PASSWORD=$(cat /run/secrets/wordpress_admin_password)
+
     MAX_RETRIES=10
     RETRY_COUNT=0
 
@@ -27,7 +31,7 @@ else
         sleep 3
     done
 
-    wp core install --url="avery.com" --title="inception test" --admin_user="$WORDPRESS_ADMIN_USER" --admin_password="$WORDPRESS_ADMIN_PASSWORD" --admin_email="$WORDPRESS_ADMIN_EMAIL" --path="/var/www/html" --allow-root --skip-email
+    wp core install --url="avery.42.fr" --title="inception test" --admin_user="$WORDPRESS_ADMIN_USER" --admin_password="$WORDPRESS_ADMIN_PASSWORD" --admin_email="$WORDPRESS_ADMIN_EMAIL" --path="/var/www/html" --allow-root --skip-email
 
     wp user create "$WORDPRESS_USER1" "$WORDPRESS_USER1_EMAIL" --role=editor --user_pass="$WORDPRESS_USER1_PASSWORD" --path="/var/www/html" --allow-root
 fi

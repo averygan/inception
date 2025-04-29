@@ -4,6 +4,9 @@
 
 sleep 3
 
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/mysql_root_password)
+MYSQL_PASSWORD=$(cat /run/secrets/mysql_password)
+
 mariadb -v -u root -p"${MYSQL_ROOT_PASSWORD}" << EOF
 CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
 CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';

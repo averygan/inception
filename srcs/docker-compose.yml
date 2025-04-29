@@ -5,6 +5,9 @@ services:
     container_name: mariadb-container
     volumes:
       - mariadb_data:/var/lib/mysql
+    secrets:
+      - mysql_root_password
+      - mysql_password
     networks:
       - all
     env_file:
@@ -16,6 +19,10 @@ services:
     build: ./requirements/wordpress/
     volumes:
       - wordpress_files:/var/www/html
+    secrets:
+      - wordpress_admin_password
+      - wordpress_user1_password
+      - mysql_password
     networks:
       - all
     restart: on-failure
@@ -56,3 +63,13 @@ volumes:
       type: none
       device: /Users/${USER}/data/mariadb_data
       o: bind
+
+secrets:
+  mysql_password:
+    file: ../secrets/mysql_password
+  mysql_root_password:
+    file: ../secrets/mysql_root_password
+  wordpress_admin_password:
+    file: ../secrets/wordpress_admin_password.txt
+  wordpress_user1_password:
+    file: ../secrets/wordpress_user1_password.txt
